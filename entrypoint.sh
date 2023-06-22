@@ -46,6 +46,7 @@ then
   echo "Pushing git commit"
   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
+  echo "I made this custom edit"
   gh pr create -t $INPUT_DESTINATION_HEAD_BRANCH \
                -b $INPUT_DESTINATION_HEAD_BRANCH \
                -B $INPUT_DESTINATION_BASE_BRANCH \
