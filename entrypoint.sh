@@ -47,6 +47,7 @@ then
   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
   echo "I made this custom edit"
+  echo [SGA] [$(date '+%d-%m-%Y %H:%M:%S')] Automated changes
   gh pr create -t $INPUT_DESTINATION_HEAD_BRANCH \
                -b $INPUT_DESTINATION_HEAD_BRANCH \
                -B $INPUT_DESTINATION_BASE_BRANCH \
