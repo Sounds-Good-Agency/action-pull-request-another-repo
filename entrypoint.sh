@@ -49,7 +49,7 @@ then
   echo "I made this custom edit"
   echo [SGA] [$(date '+%d-%m-%Y %H:%M:%S')] Automated changes
   gh pr create -t $INPUT_DESTINATION_HEAD_BRANCH \
-               -b [$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] Changes from main \
+               -b "[$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] Changes from main" \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
                   $PULL_REQUEST_REVIEWERS
