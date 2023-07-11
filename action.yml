@@ -32,6 +32,9 @@ inputs:
   symbol: 
     description: 'Symbol for PR Body and logger'
     required: false
+  message: 
+    description: 'message for PR title'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -46,6 +49,7 @@ runs:
     - ${{ inputs.destination_base_branch }}
     - ${{ inputs.pull_request_reviewers }}
     - ${{ inputs.symbol }}
+    - ${{ inputs.message }}
 branding:
   icon: 'git-commit'
   color: 'green'
