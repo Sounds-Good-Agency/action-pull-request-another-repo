@@ -1,9 +1,12 @@
 name: 'Pull Request another repository'
 description: 'Used for pull request a copy of a folder to another repository'
 inputs:
-  source_folder:
+  source_folder_ignore:
     description: 'Source folder from origin'
     required: true
+  file_ignores:
+    description: 'Files to ignore during copying (comma-separated)'
+    required: false
   destination_repo:
     description: 'Destination repository'
     required: true
@@ -33,14 +36,15 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.source-folder }}
-    - ${{ inputs.destination-repo }}
-    - ${{ inputs.destination-folder }}
-    - ${{ inputs.user-email }}
-    - ${{ inputs.user-name }}
-    - ${{ inputs.destination-head-branch }}
-    - ${{ inputs.destination-base-branch }}
-    - ${{ inputs.pull-request-reviewers }}
+    - ${{ inputs.source_folder_ignore }}
+    - ${{ inputs.file_ignores }}
+    - ${{ inputs.destination_repo }}
+    - ${{ inputs.destination_folder }}
+    - ${{ inputs.user_email }}
+    - ${{ inputs.user_name }}
+    - ${{ inputs.destination_head_branch }}
+    - ${{ inputs.destination_base_branch }}
+    - ${{ inputs.pull_request_reviewers }}
     - ${{ inputs.symbol }}
 branding:
   icon: 'git-commit'
