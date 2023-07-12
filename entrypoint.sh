@@ -41,7 +41,19 @@ git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 echo "Adding git commit"
 
 # files_to_exclude="file1.txt,file2.txt"
-files_to_exclude=$INPUT_FILES_TO_EXCLUDE
+# files_to_exclude=$INPUT_FILES_TO_EXCLUDE
+
+# exclude_files=("file1.txt" "assets/ben.js")
+
+# add_command="git add ."
+
+# for file in "${exclude_files[@]}"; do
+#     add_command+=" --exclude=$file"
+# done
+
+# # git add .
+
+# eval "$add_command"
 
 exclude_files=("file1.txt" "assets/ben.js")
 
@@ -50,8 +62,6 @@ add_command="git add ."
 for file in "${exclude_files[@]}"; do
     add_command+=" --exclude=$file"
 done
-
-# git add .
 
 eval "$add_command"
 if git status | grep -q "Changes to be committed"
