@@ -3,7 +3,7 @@
 set -e
 set -x
 
-echo 'v5'
+echo 'v6'
 
 if [ -z "$INPUT_SOURCE_FOLDER_IGNORE" ]; then
   echo "Source folder must be defined"
@@ -25,6 +25,11 @@ if [ -n "$INPUT_FILE_IGNORES" ]; then
   IFS=',' read -ra IGNORE_LIST <<< "$INPUT_FILE_IGNORES"
 fi
 
+IGNORE_FILE=$(mktemp)
+for FILE in "${IGNORE_LIST[@]}"; do
+  echo "$FILE" >> "$IGNORE_FILE"
+done
+
 CLONE_DIR=$(mktemp -d)
 
 echo "Setting git variables"
@@ -39,8 +44,7 @@ echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 # Copy files excluding ignored files
-cd "$INPUT_SOURCE_FOLDER_IGNORE"
-find . -type f | grep -Ev "$(IFS='|' ; echo "${IGNORE_LIST[*]}")" | cpio -pdm "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+rsync -av --exclude-from="$IGNORE_FILE" "$INPUT_SOURCE_FOLDER_IGNORE/" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
@@ -60,3 +64,5 @@ if git status | grep -q "Changes to be committed"; then
 else
   echo "No changes detected"
 fi
+
+rm "$IGNORE_FILE"
