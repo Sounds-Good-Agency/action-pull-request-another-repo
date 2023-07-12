@@ -43,7 +43,17 @@ echo "Adding git commit"
 # files_to_exclude="file1.txt,file2.txt"
 files_to_exclude=$INPUT_FILES_TO_EXCLUDE
 
-git add .
+exclude_files=("file1.txt" "assets/ben.js")
+
+add_command="git add ."
+
+for file in "${exclude_files[@]}"; do
+    add_command+=" --exclude=$file"
+done
+
+# git add .
+
+eval "$add_command"
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
