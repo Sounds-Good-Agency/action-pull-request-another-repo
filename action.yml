@@ -32,10 +32,14 @@ inputs:
   message: 
     description: 'message for PR title'
     required: false
+  files_to_exclude: 
+    description: 'message for PR title'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.files-to-exclude }} 
     - ${{ inputs.source-folder }}
     - ${{ inputs.destination-repo }}
     - ${{ inputs.destination-folder }}
