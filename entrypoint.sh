@@ -5,12 +5,12 @@ set -x
 
 if [ -z "$INPUT_SOURCE_FOLDER_IGNORE" ]; then
   echo "Source folder must be defined"
-  return -1
+  exit 1
 fi
 
 if [ "$INPUT_DESTINATION_HEAD_BRANCH" = "main" ] || [ "$INPUT_DESTINATION_HEAD_BRANCH" = "master" ]; then
   echo "Destination head branch cannot be 'main' or 'master'"
-  return -1
+  exit 1
 fi
 
 if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]; then
@@ -37,11 +37,11 @@ echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 # Copy files excluding ignored files
-find "$INPUT_SOURCE_FOLDER_IGNORE" -type f -exec sh -c '
+for FILE in $(find "$INPUT_SOURCE_FOLDER_IGNORE" -type f); do
   IGNORE=false
-  FILE="$1"
+  FILE_BASENAME=$(basename "$FILE")
   for IGNORE_FILE in "${IGNORE_LIST[@]}"; do
-    if [ "$IGNORE_FILE" = "$(basename "$FILE")" ]; then
+    if [ "$IGNORE_FILE" = "$FILE_BASENAME" ]; then
       IGNORE=true
       break
     fi
@@ -51,7 +51,7 @@ find "$INPUT_SOURCE_FOLDER_IGNORE" -type f -exec sh -c '
     mkdir -p "$(dirname "$DEST_FILE")"
     cp "$FILE" "$DEST_FILE"
   fi
-' sh {} \;
+done
 
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
@@ -67,7 +67,7 @@ if git status | grep -q "Changes to be committed"; then
                -b "[$INPUT_SYMBOL] - Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
                -B "$INPUT_DESTINATION_BASE_BRANCH" \
                -H "$INPUT_DESTINATION_HEAD_BRANCH" \
-                  $PULL_REQUEST_REVIEWERS
+               $PULL_REQUEST_REVIEWERS
 else
   echo "No changes detected"
 fi
