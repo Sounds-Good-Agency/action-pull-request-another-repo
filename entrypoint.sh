@@ -39,7 +39,7 @@ cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "Adding git commit"
-// files-to-exclude
+# // files-to-exclude
 echo $INPUT_FILES_TO_EXCLUDE
 git add . $INPUT_FILES_TO_EXCLUDE
 if git status | grep -q "Changes to be committed"
