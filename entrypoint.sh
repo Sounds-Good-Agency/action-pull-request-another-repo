@@ -3,6 +3,8 @@
 set -e
 set -x
 
+echo "V2"
+
 if [ -z "$INPUT_SOURCE_FOLDER_IGNORE" ]; then
   echo "Source folder must be defined"
   exit 1
