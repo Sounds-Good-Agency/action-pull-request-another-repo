@@ -39,7 +39,9 @@ cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "Adding git commit"
-git add . :^file1.txt
+// files-to-exclude
+echo $INPUT_FILES_TO_EXCLUDE
+git add . $INPUT_FILES_TO_EXCLUDE
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
