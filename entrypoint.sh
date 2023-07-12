@@ -41,7 +41,7 @@ git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 echo "Adding git commit"
 
 # files_to_exclude="file1.txt,file2.txt"
-files_to_exclude=INPUT_FILES_TO_EXCLUDE
+files_to_exclude=$INPUT_FILES_TO_EXCLUDE
 
 git add $(git ls-files . $(printf "':!%s' " $(echo "$files_to_exclude" | tr ',' '\n')))
 if git status | grep -q "Changes to be committed"
