@@ -3,7 +3,7 @@
 set -e
 set -x
 
-echo "V2"
+echo 'V3'
 
 if [ -z "$INPUT_SOURCE_FOLDER_IGNORE" ]; then
   echo "Source folder must be defined"
@@ -39,7 +39,8 @@ echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 # Copy files excluding ignored files
-for FILE in $(find "$INPUT_SOURCE_FOLDER_IGNORE" -type f); do
+cd "$INPUT_SOURCE_FOLDER_IGNORE"
+for FILE in $(find . -type f); do
   IGNORE=false
   FILE_BASENAME=$(basename "$FILE")
   for IGNORE_FILE in "${IGNORE_LIST[@]}"; do
