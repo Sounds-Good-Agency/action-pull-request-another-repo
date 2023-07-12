@@ -3,7 +3,7 @@
 set -e
 set -x
 
-if [ -z "$INPUT_SOURCE_FOLDER" ]; then
+if [ -z "$INPUT_SOURCE_FOLDER_IGNORE" ]; then
   echo "Source folder must be defined"
   return -1
 fi
@@ -37,7 +37,7 @@ echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 # Copy files excluding ignored files
-for FILE in $(find "$INPUT_SOURCE_FOLDER" -type f); do
+for FILE in $(find "$INPUT_SOURCE_FOLDER_IGNORE" -type f); do
   IGNORE=false
   for IGNORE_FILE in "${IGNORE_LIST[@]}"; do
     if [ "$IGNORE_FILE" = "$(basename "$FILE")" ]; then
@@ -46,7 +46,7 @@ for FILE in $(find "$INPUT_SOURCE_FOLDER" -type f); do
     fi
   done
   if [ "$IGNORE" = false ]; then
-    DEST_FILE="$CLONE_DIR/$INPUT_DESTINATION_FOLDER/${FILE#$INPUT_SOURCE_FOLDER/}"
+    DEST_FILE="$CLONE_DIR/$INPUT_DESTINATION_FOLDER/${FILE#$INPUT_SOURCE_FOLDER_IGNORE/}"
     mkdir -p "$(dirname "$DEST_FILE")"
     cp "$FILE" "$DEST_FILE"
   fi
