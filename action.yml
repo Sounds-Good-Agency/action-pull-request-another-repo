@@ -39,7 +39,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.files-to-exclude }} 
     - ${{ inputs.source-folder }}
     - ${{ inputs.destination-repo }}
     - ${{ inputs.destination-folder }}
@@ -50,6 +49,7 @@ runs:
     - ${{ inputs.pull-request-reviewers }}
     - ${{ inputs.symbol }}
     - ${{ inputs.message }}
+    - ${{ inputs.files-to-exclude }} 
 branding:
   icon: 'git-commit'
   color: 'green'
