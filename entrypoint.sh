@@ -37,8 +37,9 @@ echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 # Copy files excluding ignored files
-for FILE in $(find "$INPUT_SOURCE_FOLDER_IGNORE" -type f); do
+find "$INPUT_SOURCE_FOLDER_IGNORE" -type f -exec sh -c '
   IGNORE=false
+  FILE="$1"
   for IGNORE_FILE in "${IGNORE_LIST[@]}"; do
     if [ "$IGNORE_FILE" = "$(basename "$FILE")" ]; then
       IGNORE=true
@@ -50,7 +51,7 @@ for FILE in $(find "$INPUT_SOURCE_FOLDER_IGNORE" -type f); do
     mkdir -p "$(dirname "$DEST_FILE")"
     cp "$FILE" "$DEST_FILE"
   fi
-done
+' sh {} \;
 
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
