@@ -38,6 +38,7 @@ cp -R $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
+echo "$INPUT_BODY"
 echo "Adding git commit"
 # // files-to-exclude
 echo $INPUT_FILES_TO_EXCLUDE
