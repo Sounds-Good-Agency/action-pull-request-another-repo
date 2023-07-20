@@ -49,7 +49,7 @@ then
   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
   gh pr create -t "[$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] $INPUT_MESSAGE" \
-               -b "$INPUT_MESSAGE \n\n\n https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
+               -b "$INPUT_BODY \n\n\n From: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
                   $PULL_REQUEST_REVIEWERS
