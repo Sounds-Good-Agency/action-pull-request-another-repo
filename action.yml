@@ -35,6 +35,9 @@ inputs:
   files_to_exclude: 
     description: 'message for PR title'
     required: false
+  body: 
+    description: 'body for PR'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -50,6 +53,7 @@ runs:
     - ${{ inputs.symbol }}
     - ${{ inputs.message }}
     - ${{ inputs.files-to-exclude }} 
+    - ${{ inputs.body }}
 branding:
   icon: 'git-commit'
   color: 'green'
