@@ -68,6 +68,15 @@ echo "Adding git commit new"
 echo "INPUT_DESTINATION_FOLDER: $INPUT_DESTINATION_FOLDER"
 echo "file: $file"
 
+pr_files_array=($pr_files)
+
+for i in "${pr_files_array[@]}"
+do
+    echo "$i"
+    # git add $i
+    git add "$INPUT_DESTINATION_FOLDER/$file"
+done
+
 # Loop through the array of destination files
 # for file in "${INPUT_DESTINATION_FILES[@]}"
 # do
