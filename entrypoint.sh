@@ -51,7 +51,7 @@ echo "Adding git commit new"
 # echo "$INPUT_DESTINATION_FILES"
 
 # Split the string into an array using space as the delimiter
-IFS=' ' read -r -a pr_files_array <<< "$INPUT_DESTINATION_FILES"
+# IFS=' ' read -r -a pr_files_array <<< "$INPUT_DESTINATION_FILES"
 
 # echo "$pr_files_array"
 
