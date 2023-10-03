@@ -53,11 +53,9 @@ echo "$INPUT_DESTINATION_FILES"
 
 # pr_files_array=($INPUT_DESTINATION_FILES)
 
-IFS=',' read -ra pr_files_array <<< "$pr_files"
-
-for i in "${pr_files_array[@]}"
-do
-    echo "$i"
+# Loop over the files
+for file in $INPUT_DESTINATION_FILES; do
+    echo $file
 done
 
 # if git status | grep -q "Changes to be committed"
