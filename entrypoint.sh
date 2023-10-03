@@ -56,20 +56,20 @@ git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 # Loop over the files
 for file in $INPUT_DESTINATION_FILES; do
     echo $file
-    git add "$INPUT_DESTINATION_FOLDER/$file"
+    git add "./$file"
 done
 
-# if git status | grep -q "Changes to be committed"
-# then
-#   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
-#   echo "Pushing git commit"
-#   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
-#   echo "Creating a pull request"
-#   gh pr create -t "[$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] $INPUT_MESSAGE" \
-#                -b "$INPUT_BODY"$'\n\n\n'"From: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
-#                -B $INPUT_DESTINATION_BASE_BRANCH \
-#                -H $INPUT_DESTINATION_HEAD_BRANCH \
-#                $PULL_REQUEST_REVIEWERS
-# else
-#   echo "No changes detected"
-# fi
+if git status | grep -q "Changes to be committed"
+then
+  git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+  echo "Pushing git commit"
+  git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
+  echo "Creating a pull request"
+  gh pr create -t "[$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] $INPUT_MESSAGE" \
+               -b "$INPUT_BODY"$'\n\n\n'"From: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
+               -B $INPUT_DESTINATION_BASE_BRANCH \
+               -H $INPUT_DESTINATION_HEAD_BRANCH \
+               $PULL_REQUEST_REVIEWERS
+else
+  echo "No changes detected"
+fi
