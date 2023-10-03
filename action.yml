@@ -38,6 +38,9 @@ inputs:
   body: 
     description: 'body for PR'
     required: false
+  destination_files:
+    description: 'Array of files updated in PR'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -54,6 +57,7 @@ runs:
     - ${{ inputs.message }}
     - ${{ inputs.files-to-exclude }} 
     - ${{ inputs.body }}
+    - ${{ inputs.destination_files }}
 branding:
   icon: 'git-commit'
   color: 'green'

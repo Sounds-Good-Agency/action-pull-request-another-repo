@@ -9,7 +9,13 @@ then
   return -1
 fi
 
-if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master"]
+if [ -z "$INPUT_DESTINATION_FILES" ]
+then
+  echo "Destination files must be defined"
+  return -1
+fi
+
+if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master" ]
 then
   echo "Destination head branch cannot be 'main' or 'master'"
   return -1
@@ -34,15 +40,25 @@ git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$C
 
 echo "Copying contents to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
-cp -R $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+cp -R $INPUT_SOURCE_FOLDER/* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "$INPUT_BODY"
 echo "Adding git commit"
-# // files-to-exclude
-echo $INPUT_FILES_TO_EXCLUDE
-git add . $INPUT_FILES_TO_EXCLUDE
+
+echo "$INPUT_DESTINATION_FILES"
+
+# Loop through the array of destination files
+for file in "${INPUT_DESTINATION_FILES[@]}"
+do
+  # Check if the file is not in the list of ignored files
+  if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
+    git add "$INPUT_DESTINATION_FOLDER/$file"
+  fi
+done
+
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
@@ -53,7 +69,7 @@ then
                -b "$INPUT_BODY"$'\n\n\n'"From: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
-                  $PULL_REQUEST_REVIEWERS
+               $PULL_REQUEST_REVIEWERS
 else
   echo "No changes detected"
 fi
