@@ -46,7 +46,7 @@ cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "$INPUT_BODY"
-echo "Adding git commit"
+echo "Adding git commit new"
 
 # echo "$INPUT_DESTINATION_FILES"
 
