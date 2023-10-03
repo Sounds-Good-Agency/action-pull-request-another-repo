@@ -50,8 +50,11 @@ echo "Adding git commit"
 
 # echo "$INPUT_DESTINATION_FILES"
 
-# Loop through the array of destination files
-for file in "${INPUT_DESTINATION_FILES[@]}"
+# Split the string into an array using space as the delimiter
+IFS=' ' read -r -a pr_files_array <<< "$INPUT_DESTINATION_FILES"
+
+# Now, pr_files_array is an array of files to be included
+for file in "${pr_files_array[@]}"
 do
   # Check if the file is not in the list of ignored files
   if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
@@ -60,17 +63,27 @@ do
   fi
 done
 
-if git status | grep -q "Changes to be committed"
-then
-  git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
-  echo "Pushing git commit"
-  git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
-  echo "Creating a pull request"
-  gh pr create -t "[$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] $INPUT_MESSAGE" \
-               -b "$INPUT_BODY"$'\n\n\n'"From: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
-               -B $INPUT_DESTINATION_BASE_BRANCH \
-               -H $INPUT_DESTINATION_HEAD_BRANCH \
-               $PULL_REQUEST_REVIEWERS
-else
-  echo "No changes detected"
-fi
+# Loop through the array of destination files
+# for file in "${INPUT_DESTINATION_FILES[@]}"
+# do
+#   # Check if the file is not in the list of ignored files
+#   if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
+#     echo "$INPUT_DESTINATION_FOLDER/$file"
+#     git add "$INPUT_DESTINATION_FOLDER/$file"
+#   fi
+# done
+
+# if git status | grep -q "Changes to be committed"
+# then
+#   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+#   echo "Pushing git commit"
+#   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
+#   echo "Creating a pull request"
+#   gh pr create -t "[$INPUT_SYMBOL] [$(date '+%d-%m-%Y %H:%M:%S')] $INPUT_MESSAGE" \
+#                -b "$INPUT_BODY"$'\n\n\n'"From: https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA" \
+#                -B $INPUT_DESTINATION_BASE_BRANCH \
+#                -H $INPUT_DESTINATION_HEAD_BRANCH \
+#                $PULL_REQUEST_REVIEWERS
+# else
+#   echo "No changes detected"
+# fi
