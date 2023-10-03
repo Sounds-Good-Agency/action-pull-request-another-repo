@@ -44,9 +44,16 @@ echo "Adding git commit"
 echo $INPUT_FILES_TO_EXCLUDE
 # git add . $INPUT_FILES_TO_EXCLUDE
 
+# for file in $INPUT_DESTINATION_FILES; do
+#     echo $file
+#     git add $file
+# done
+
 for file in $INPUT_DESTINATION_FILES; do
+  if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
     echo $file
-    git add $file
+    git add "$INPUT_DESTINATION_FOLDER/$file"
+  fi
 done
 
 git status
