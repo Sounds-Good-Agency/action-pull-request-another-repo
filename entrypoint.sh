@@ -53,17 +53,20 @@ echo "Adding git commit"
 # Split the string into an array using space as the delimiter
 IFS=' ' read -r -a pr_files_array <<< "$INPUT_DESTINATION_FILES"
 
-echo "$pr_files_array"
+# echo "$pr_files_array"
 
-# Now, pr_files_array is an array of files to be included
-for file in "${pr_files_array[@]}"
-do
-  # Check if the file is not in the list of ignored files
-  if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
-    echo "$INPUT_DESTINATION_FOLDER/$file"
-    git add "$INPUT_DESTINATION_FOLDER/$file"
-  fi
-done
+# # Now, pr_files_array is an array of files to be included
+# for file in "${pr_files_array[@]}"
+# do
+#   # Check if the file is not in the list of ignored files
+#   if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
+#     echo "$INPUT_DESTINATION_FOLDER/$file"
+#     git add "$INPUT_DESTINATION_FOLDER/$file"
+#   fi
+# done
+
+echo "INPUT_DESTINATION_FOLDER: $INPUT_DESTINATION_FOLDER"
+echo "file: $file"
 
 # Loop through the array of destination files
 # for file in "${INPUT_DESTINATION_FILES[@]}"
