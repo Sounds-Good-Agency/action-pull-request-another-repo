@@ -47,46 +47,18 @@ git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "$INPUT_BODY"
 echo "Adding git commit new"
-
-# echo "$INPUT_DESTINATION_FILES"
-
-# Split the string into an array using space as the delimiter
-# IFS=' ' read -r -a pr_files_array <<< "$INPUT_DESTINATION_FILES"
-
-# echo "$pr_files_array"
-
-# # Now, pr_files_array is an array of files to be included
-# for file in "${pr_files_array[@]}"
-# do
-#   # Check if the file is not in the list of ignored files
-#   if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
-#     echo "$INPUT_DESTINATION_FOLDER/$file"
-#     git add "$INPUT_DESTINATION_FOLDER/$file"
-#   fi
-# done
-
 echo "INPUT_DESTINATION_FOLDER: $INPUT_DESTINATION_FOLDER"
 echo "file: $file"
 echo "$INPUT_DESTINATION_FILES"
 
-pr_files_array=($INPUT_DESTINATION_FILES)
+# pr_files_array=($INPUT_DESTINATION_FILES)
+
+IFS=',' read -ra pr_files_array <<< "$pr_files"
 
 for i in "${pr_files_array[@]}"
 do
     echo "$i"
-    # git add $i
-    git add "$INPUT_DESTINATION_FOLDER/$file"
 done
-
-# Loop through the array of destination files
-# for file in "${INPUT_DESTINATION_FILES[@]}"
-# do
-#   # Check if the file is not in the list of ignored files
-#   if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
-#     echo "$INPUT_DESTINATION_FOLDER/$file"
-#     git add "$INPUT_DESTINATION_FOLDER/$file"
-#   fi
-# done
 
 # if git status | grep -q "Changes to be committed"
 # then
