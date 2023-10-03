@@ -48,13 +48,14 @@ git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 echo "$INPUT_BODY"
 echo "Adding git commit"
 
-echo "$INPUT_DESTINATION_FILES"
+# echo "$INPUT_DESTINATION_FILES"
 
 # Loop through the array of destination files
 for file in "${INPUT_DESTINATION_FILES[@]}"
 do
   # Check if the file is not in the list of ignored files
   if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
+    echo "$INPUT_DESTINATION_FOLDER/$file"
     git add "$INPUT_DESTINATION_FOLDER/$file"
   fi
 done
