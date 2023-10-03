@@ -50,10 +50,7 @@ echo $INPUT_FILES_TO_EXCLUDE
 # done
 
 for file in $INPUT_DESTINATION_FILES; do
-  if [[ ! " ${INPUT_FILES_TO_IGNORE[@]} " =~ " $file " ]]; then
-    echo $file
-    git add "$INPUT_DESTINATION_FOLDER/$file"
-  fi
+  git add $file
 done
 
 git status
