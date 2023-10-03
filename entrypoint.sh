@@ -45,17 +45,18 @@ cp -R $INPUT_SOURCE_FOLDER/* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
-echo "$INPUT_BODY"
-echo "Adding git commit new"
-echo "INPUT_DESTINATION_FOLDER: $INPUT_DESTINATION_FOLDER"
-echo "file: $file"
-echo "$INPUT_DESTINATION_FILES"
+# echo "$INPUT_BODY"
+# echo "Adding git commit new"
+# echo "INPUT_DESTINATION_FOLDER: $INPUT_DESTINATION_FOLDER"
+# echo "file: $file"
+# echo "$INPUT_DESTINATION_FILES"
 
 # pr_files_array=($INPUT_DESTINATION_FILES)
 
 # Loop over the files
 for file in $INPUT_DESTINATION_FILES; do
     echo $file
+    git add "$INPUT_DESTINATION_FOLDER/$file"
 done
 
 # if git status | grep -q "Changes to be committed"
