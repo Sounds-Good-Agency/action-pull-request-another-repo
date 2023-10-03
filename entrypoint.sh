@@ -53,6 +53,8 @@ echo "Adding git commit"
 # Split the string into an array using space as the delimiter
 IFS=' ' read -r -a pr_files_array <<< "$INPUT_DESTINATION_FILES"
 
+echo "$pr_files_array"
+
 # Now, pr_files_array is an array of files to be included
 for file in "${pr_files_array[@]}"
 do
