@@ -4,7 +4,7 @@ set -e
 set -x
 
 # installing curl
-apt-get update && apt-get install curl
+# apt-get update && apt-get install curl
 
 if [ -z "$INPUT_SOURCE_FOLDER" ]
 then
@@ -37,8 +37,8 @@ echo "Cloning destination git repository"
 
 # make curl to https://api.github.com/repos/expedo-store/pulls/40/files with $API_TOKEN_GITHUB
 # curl https://api.github.com/repos/expedo-store/pulls/40/files
-echo 'curling'
-curl -H "Authorization: token $API_TOKEN_GITHUB" https://api.github.com/repos/expedo-store/pulls/40/files
+# echo 'curling'
+# curl -H "Authorization: token $API_TOKEN_GITHUB" https://api.github.com/repos/expedo-store/pulls/40/files
 
 echo "Cloning to $INPUT_DESTINATION_BASE_BRANCH"
 git clone -b $INPUT_DESTINATION_BASE_BRANCH "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
