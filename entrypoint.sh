@@ -3,6 +3,9 @@
 set -e
 set -x
 
+# installing curl
+apt-get update && apt-get install curl
+
 if [ -z "$INPUT_SOURCE_FOLDER" ]
 then
   echo "Source folder must be defined"
