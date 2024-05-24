@@ -41,7 +41,7 @@ git clone -b "$INPUT_DESTINATION_BASE_BRANCH" "https://$API_TOKEN_GITHUB@github.
 
 echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
-cp -R "$INPUT_SOURCE_FOLDER" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+(cd "$INPUT_SOURCE_FOLDER" && cp -R . "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/")
 
 # Debugging information
 echo "Contents of $CLONE_DIR/$INPUT_DESTINATION_FOLDER/ after copying:"
@@ -58,8 +58,7 @@ done
 
 git status
 
-if git status | grep -q "Changes to be committed"
-then
+if git status | grep -q "Changes to be committed"; then
   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
   echo "Pushing git commit"
   git push -u origin HEAD:"$INPUT_DESTINATION_HEAD_BRANCH"
