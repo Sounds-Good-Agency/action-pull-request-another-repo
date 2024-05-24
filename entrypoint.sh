@@ -34,7 +34,6 @@ git config --global user.name "$INPUT_USER_NAME"
 
 echo "Cloning destination git repository"
 # git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
-
 # make curl to https://api.github.com/repos/expedo-store/pulls/40/files with $API_TOKEN_GITHUB
 # curl https://api.github.com/repos/expedo-store/pulls/40/files
 # echo 'curling'
