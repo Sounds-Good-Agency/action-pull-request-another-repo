@@ -48,7 +48,6 @@ mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
 cp -R $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 cp -R ./.[!.]* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 cd "$CLONE_DIR"
-ls -R
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "$INPUT_BODY"
@@ -71,6 +70,8 @@ done
 
 git status
 
+if git status | grep -q "Changes to be committed"
+then
   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
   echo "Pushing git commit"
   git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
@@ -80,4 +81,6 @@ git status
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
                   $PULL_REQUEST_REVIEWERS
-
+else
+  echo "No changes detected"
+fi
