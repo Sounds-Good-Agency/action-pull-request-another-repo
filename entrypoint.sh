@@ -43,6 +43,7 @@ echo "Cloning destination git repository"
 echo "Cloning to $INPUT_DESTINATION_BASE_BRANCH"
 git clone -b $INPUT_DESTINATION_BASE_BRANCH "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
+rsync --version
 echo "Copying contents to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
 cp -R "$INPUT_SOURCE_FOLDER"/. "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
