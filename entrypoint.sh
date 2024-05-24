@@ -68,19 +68,18 @@ missing_files=()
 
 # Loop through each file in the input list
 for file in $INPUT_DESTINATION_FILES; do
-  if [ -f $file ]; then
-    git add $file
+  if [! -f "$file" ]; then
+    # File does not exist, append its name to the missing_files string
+    missing_files="$missing_files$file "
   else
-    missing_files+=($file)
+    git add "$file"
   fi
 done
 
 # Check if there are any missing files and echo them
-if [ ${#missing_files[@]} -gt 0 ]; then
+if [ -n "$missing_files" ]; then
   echo "The following files do not exist:"
-  for missing_file in "${missing_files[@]}"; do
-    echo "$missing_file"
-  done
+  echo "$missing_files"
 else
   echo "All files exist and have been added to Git."
 fi
