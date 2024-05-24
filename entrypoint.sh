@@ -10,23 +10,20 @@ echo "Destination repo: $INPUT_DESTINATION_REPO"
 echo "Destination folder: $INPUT_DESTINATION_FOLDER"
 echo "Files to exclude: $INPUT_FILES_TO_EXCLUDE"
 
-if [ -z "$INPUT_SOURCE_FOLDER" ]
-then
+if [ -z "$INPUT_SOURCE_FOLDER" ]; then
   echo "Source folder must be defined"
-  return -1
+  exit 1
 fi
 
-if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master"]
-then
+if [ "$INPUT_DESTINATION_HEAD_BRANCH" = "main" ] || [ "$INPUT_DESTINATION_HEAD_BRANCH" = "master" ]; then
   echo "Destination head branch cannot be 'main' or 'master'"
-  return -1
+  exit 1
 fi
 
-if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]
-then
-  PULL_REQUEST_REVIEWERS=$INPUT_PULL_REQUEST_REVIEWERS
+if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]; then
+  PULL_REQUEST_REVIEWERS=""
 else
-  PULL_REQUEST_REVIEWERS='-r '$INPUT_PULL_REQUEST_REVIEWERS
+  PULL_REQUEST_REVIEWERS="-r $INPUT_PULL_REQUEST_REVIEWERS"
 fi
 
 CLONE_DIR=$(mktemp -d)
@@ -41,7 +38,8 @@ git clone -b "$INPUT_DESTINATION_BASE_BRANCH" "https://$API_TOKEN_GITHUB@github.
 
 echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
-(cd "$INPUT_SOURCE_FOLDER" && cp -R . "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/")
+# Use find to get all files and directories and copy them
+find "$INPUT_SOURCE_FOLDER" -mindepth 1 -maxdepth 1 -exec cp -r {} "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/" \;
 
 # Debugging information
 echo "Contents of $CLONE_DIR/$INPUT_DESTINATION_FOLDER/ after copying:"
