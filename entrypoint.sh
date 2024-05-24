@@ -46,6 +46,8 @@ git clone -b $INPUT_DESTINATION_BASE_BRANCH "https://$API_TOKEN_GITHUB@github.co
 echo "Copying contents to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
 cp -R $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+rsync -av --exclude='.git' ./.[!.]* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
