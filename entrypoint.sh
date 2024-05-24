@@ -5,11 +5,6 @@ set -x
 
 # installing curl
 # apt-get update && apt-get install curl
-echo "Running entry point script..."
-echo "Source folder: $INPUT_SOURCE_FOLDER"
-echo "Destination repo: $INPUT_DESTINATION_REPO"
-echo "Destination folder: $INPUT_DESTINATION_FOLDER"
-echo "Files to exclude: $INPUT_FILES_TO_EXCLUDE"
 
 if [ -z "$INPUT_SOURCE_FOLDER" ]
 then
@@ -67,6 +62,28 @@ echo $INPUT_FILES_TO_EXCLUDE
 
 echo 'here is the list of files'
 echo $INPUT_DESTINATION_FILES
+
+# Array to hold the names of missing files
+missing_files=()
+
+# Loop through each file in the input list
+for file in $INPUT_DESTINATION_FILES; do
+  if [ -f $file ]; then
+    git add $file
+  else
+    missing_files+=($file)
+  fi
+done
+
+# Check if there are any missing files and echo them
+if [ ${#missing_files[@]} -gt 0 ]; then
+  echo "The following files do not exist:"
+  for missing_file in "${missing_files[@]}"; do
+    echo "$missing_file"
+  done
+else
+  echo "All files exist and have been added to Git."
+fi
 
 for file in $INPUT_DESTINATION_FILES; do
   git add $file
