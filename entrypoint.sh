@@ -47,6 +47,7 @@ echo "Copying contents to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
 cp -R $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 cd "$CLONE_DIR"
+ls -R
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "$INPUT_BODY"
@@ -63,30 +64,9 @@ echo $INPUT_FILES_TO_EXCLUDE
 echo 'here is the list of files'
 echo $INPUT_DESTINATION_FILES
 
-# Array to hold the names of missing files
-missing_files=""
-
-# Loop through each file in the input list
 for file in $INPUT_DESTINATION_FILES; do
-  if [! -f $file ]; then
-    # File does not exist, append its name to the missing_files string
-    missing_files=$missing_files$file
-  else
-    git add $file
-  fi
+  git add $file
 done
-
-# Check if there are any missing files and echo them
-if [ -n $missing_files ]; then
-  echo "The following files do not exist:"
-  echo $missing_files
-else
-  echo "All files exist and have been added to Git."
-fi
-
-# for file in $INPUT_DESTINATION_FILES; do
-#   git add $file
-# done
 
 git status
 
