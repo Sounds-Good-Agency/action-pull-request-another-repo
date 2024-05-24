@@ -85,9 +85,9 @@ else
   echo "All files exist and have been added to Git."
 fi
 
-for file in $INPUT_DESTINATION_FILES; do
-  git add $file
-done
+# for file in $INPUT_DESTINATION_FILES; do
+#   git add $file
+# done
 
 git status
 
