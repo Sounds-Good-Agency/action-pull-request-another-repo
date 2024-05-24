@@ -64,7 +64,7 @@ echo 'here is the list of files'
 echo $INPUT_DESTINATION_FILES
 
 # Array to hold the names of missing files
-missing_files=()
+missing_files=""
 
 # Loop through each file in the input list
 for file in $INPUT_DESTINATION_FILES; do
