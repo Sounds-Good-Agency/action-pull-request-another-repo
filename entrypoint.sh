@@ -64,9 +64,9 @@ echo $INPUT_FILES_TO_EXCLUDE
 echo 'here is the list of files'
 echo $INPUT_DESTINATION_FILES
 
-for file in $INPUT_DESTINATION_FILES; do
-  git add $file
-done
+# for file in $INPUT_DESTINATION_FILES; do
+#   git add $file
+# done
 
 git status
 
