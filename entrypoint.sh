@@ -56,10 +56,26 @@ echo "Adding git commit"
 echo $INPUT_FILES_TO_EXCLUDE
 # git add . $INPUT_FILES_TO_EXCLUDE
 
-# for file in $INPUT_DESTINATION_FILES; do
-#     echo $file
-#     git add $file
-# done
+if [ -n "$INPUT_FILES_TO_EXCLUDE" ] && [ -n "$INPUT_DESTINATION_FILES" ]; then
+  FILTERED_DESTINATION_FILES=""
+  for file in $(echo $INPUT_DESTINATION_FILES | tr ' ' '\n'); do
+    exclude_file=false
+    for exclude in $(echo $INPUT_FILES_TO_EXCLUDE | tr ' ' '\n'); do
+      if [ "$file" = "$exclude" ]; then
+        exclude_file=true
+        break
+      fi
+    done
+    if [ "$exclude_file" = false ]; then
+      if [ -z "$FILTERED_DESTINATION_FILES" ]; then
+        FILTERED_DESTINATION_FILES="$file"
+      else
+        FILTERED_DESTINATION_FILES="$FILTERED_DESTINATION_FILES $file"
+      fi
+    fi
+  done
+  INPUT_DESTINATION_FILES="$FILTERED_DESTINATION_FILES"
+fi
 
 echo 'here is the list of files'
 echo $INPUT_DESTINATION_FILES
