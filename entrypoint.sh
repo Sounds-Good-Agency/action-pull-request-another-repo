@@ -58,6 +58,7 @@ echo $INPUT_FILES_TO_EXCLUDE
 
 if [ -n "$INPUT_FILES_TO_EXCLUDE" ] && [ -n "$INPUT_DESTINATION_FILES" ]; then
   FILTERED_DESTINATION_FILES=""
+  set +x
   for file in $INPUT_DESTINATION_FILES; do
     exclude_file=false
     for exclude in $INPUT_FILES_TO_EXCLUDE; do
@@ -75,6 +76,7 @@ if [ -n "$INPUT_FILES_TO_EXCLUDE" ] && [ -n "$INPUT_DESTINATION_FILES" ]; then
     fi
   done
   INPUT_DESTINATION_FILES="$FILTERED_DESTINATION_FILES"
+  set -x
 fi
 
 echo 'here is the list of files'
