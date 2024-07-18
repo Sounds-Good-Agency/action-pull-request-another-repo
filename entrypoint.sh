@@ -58,9 +58,9 @@ echo $INPUT_FILES_TO_EXCLUDE
 
 if [ -n "$INPUT_FILES_TO_EXCLUDE" ] && [ -n "$INPUT_DESTINATION_FILES" ]; then
   FILTERED_DESTINATION_FILES=""
-  for file in $(echo $INPUT_DESTINATION_FILES | tr ' ' '\n'); do
+  for file in $INPUT_DESTINATION_FILES; do
     exclude_file=false
-    for exclude in $(echo $INPUT_FILES_TO_EXCLUDE | tr ' ' '\n'); do
+    for exclude in $INPUT_FILES_TO_EXCLUDE; do
       if [ "$file" = "$exclude" ]; then
         exclude_file=true
         break
