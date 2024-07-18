@@ -33,7 +33,7 @@ inputs:
     description: 'message for PR title'
     required: false
   files_to_exclude: 
-    description: 'message for PR title'
+    description: 'List of files to exclude from the copy'
     required: false
   body: 
     description: 'body for PR'
